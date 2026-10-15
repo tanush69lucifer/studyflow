@@ -1,0 +1,21 @@
+# One-click deploy on Render (render.com -> New -> Blueprint -> pick this repo).
+# The Express server serves the API and the built React app from one URL.
+services:
+  - type: web
+    name: studyflow
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: MONGODB_URI
+        sync: false        # paste your Atlas URI in the Render dashboard
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CLIENT_ORIGIN
+        value: http://localhost:5173
